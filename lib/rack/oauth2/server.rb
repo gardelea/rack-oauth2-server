@@ -66,6 +66,8 @@ module Rack
         #     :scope=>config["scope"],
         #     :redirect_uri=>"http://example.com/oauth/callback"
         def register(args)
+          puts " Server.register : args = #{args.inspect}" if !args.nil? && args.has_key?(:secret)
+
           if args[:id] && args[:secret] && (client = get_client(args[:id]))
             fail "Client secret does not match" unless client.secret == args[:secret]
             client.update args

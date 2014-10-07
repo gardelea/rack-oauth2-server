@@ -26,6 +26,8 @@ module Rack
           # them as suggested would result in better user experience.  Don't ask
           # how we learned that.
           def create(args)
+            puts "Client.create : args = #{args.inspect}" if !args.nil? && args.has_key?(:secret)
+
             redirect_uri = Server::Utils.parse_redirect_uri(args[:redirect_uri]).to_s if args[:redirect_uri]
             scope = Server::Utils.normalize_scope(args[:scope])
             fields =  { :display_name=>args[:display_name], :link=>args[:link],
@@ -36,6 +38,7 @@ module Rack
               fields[:_id], fields[:secret] = BSON::ObjectId(args[:id].to_s), args[:secret]
               collection.insert(fields, :safe=>true)
             else
+              puts "Client.create : setting fields[:secret] = #{Server.secure_random}"
               fields[:secret] = Server.secure_random
               fields[:_id] = collection.insert(fields)
             end

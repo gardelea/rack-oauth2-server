@@ -20,7 +20,9 @@ module Rack
 
         # Long, random and hexy.
         def secure_random
-          OpenSSL::Random.random_bytes(32).unpack("H*")[0]
+          puts "Rack::OAuth2::Server#secure_random ...."
+          # OpenSSL::Random.random_bytes(32).unpack("H*")[0]
+          SecureRandom.uuid.gsub('-', '')
         end
         
         # @private

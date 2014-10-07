@@ -49,6 +49,7 @@ class ServerTest < Test::Unit::TestCase
       setup do
         @client = Server.register(:display_name=>"MyApp", :link=>"http://example.org", :image_url=>"http://example.org/favicon.ico",
                                   :redirect_uri=>"http://example.org/oauth/callback", :scope=>%w{read write})
+        puts "setup : @client = #{@client.inspect}"
       end
 
       should "create new client" do
@@ -81,6 +82,8 @@ class ServerTest < Test::Unit::TestCase
       end
 
       should "assign client a secret" do
+        puts " @client.secret = #{@client.secret}"
+        puts " @client.secret.class = #{@client.secret.class.inspect}"
         assert_match /[0-9a-f]{64}/, @client.secret
       end
     end
